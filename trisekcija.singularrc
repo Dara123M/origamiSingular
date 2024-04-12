@@ -1,0 +1,118 @@
+ring A1 = (real, eX), ( abA, abB, abC, bcA, bcB, bcC, cdA, cdB, cdC, adA, adB, adC, gfA, gfB, gfC, ihA, ihB, ihC, aeA, aeB, aeC, apaA, apaB, apaC, gpgA, gpgB, gpgC, ipiA, ipiB, ipiC, kA, kB, kC, aX, aY, bX, bY, cX, cY, dX, dY, eY, gX, gY, iX, iY, hX, hY, fX, fY, paX, paY, pgX, pgY, piX, piY, tgalpha, tg2alpha, tg3alpha), Dp;
+
+//Postavke kvadrata
+
+poly f1 = abA*aX + abB*aY + abC;//A pripada AB
+poly f2 = abA*bX + abB*bY + abC;//B pripada AB
+poly f3 = bcA*bX + bcB*bY + bcC;//B pripada BC
+poly f4 = bcA*cX + bcB*cY + bcC;//C pripada BC
+poly f5 = cdA*cX + cdB*cY + cdC;//C pripada CD
+poly f6 = cdA*dX + cdB*dY + cdC;//D pripada CD
+poly f7 = adA*dX + adB*dY + adC;//D pripada AD
+poly f8 = adA*aX + adB*aY + adC;//A pripada AD
+poly f9 = adA*abA + adB*abB;//AD normalno na AB
+poly f10 = adA*cdA + adB*cdB;//AD normalno na CD
+poly f11 = bcA*abA + bcB*abB;//BC normalno na AB
+poly f12 = bcA*cdA + bcB*cdB;//BC normalno na CD
+poly f13 = cdA*eX + cdB*eY + cdC;//E pripada CD
+poly f14 = aeA*aX + aeB*aY + aeC;//A pripada AE
+poly f15 = aeA*eX + aeB*eY + aeC;//E pripada AE
+
+//A2
+
+poly f16 = adA*gfA + adB*gfB;//AD normalno na GF
+poly f17 = bcA*gfA + bcB*gfB;//BC normalno na GF
+poly f18 = adA*gX + adB*gY + adC;//G pripada AD
+poly f19 = bcA*fX + bcB*fY + bcC;//F pripada BC
+poly f20 = -2*gX + aX + dX;//G je srednja tacka
+poly f21 = -2*gY + aY + dY;
+poly f22 = gfA*gX + gfB*gY + gfC;//G pripada GF
+poly f23 = gfA*fX + gfB*fY + gfC;//F pripada GF
+poly f24 = -2*fX + bX + cX;//F je srednja tacka
+poly f25 = -2*fY + bY + cY;
+
+//A2
+
+poly f26 = adA*ihA + adB*ihB;//IH normalno na AD
+poly f27 = bcA*ihA + bcB*ihB;//IH normalno na BC
+poly f28 = -2*iX + aX + gX;//I je srednja tacka AG
+poly f29 = -2*iY + aY + gY;
+poly f30 = -2*hX + bX + fX;//H je srednja tacka BF
+poly f31 = -2*hY + bY + fY;
+poly f32 = ihA*iX + ihB*iY + ihC;//I pripada IH
+poly f33 = ihA*hX + ihB*hY + ihC;//H pripada IH
+poly f34 = adA*iX + adB*iY + adC;//I pripada AD
+poly f35 = bcA*hX + bcB*hY + bcC;//H pripada BC
+
+//A2 I u PI
+
+poly f36 = ipiA*iX + ipiB*iY + ipiC;//I pripada IPI
+poly f37 = ipiA*piX + ipiB*piY + ipiC;//PI pripada IPI
+poly f38 = ipiA*kA + ipiB*kB;//IPI normalno na k
+poly f39 = kA*(iX + piX) + kB*(iY + piY) + 2*kC;//srednja tacka je na k
+
+//A6 A na IH, G na AE
+
+poly f40 = apaA*aX + apaB*aY + apaC;//A pripada APA
+poly f41 = apaA*paX + apaB*paY + apaC;//PA pripada APA
+poly f42 = apaA*kA + apaB*kB;//APA normalno na k
+poly f43 = kA*(aX + paX) + kB*(aY + paY) + 2*kC;//srednja tacka je na k
+poly f44 = ihA*paX + ihB*paY + ihC;//PA pripada IH
+
+poly f45 = gpgA*gX + gpgB*gY + gpgC;//G pripada PGP
+poly f46 = gpgA*pgX + gpgB*pgY + gpgC;//PG pripada PGP
+poly f47 = gpgA*kA + gpgB*kB;//PGP normalno na k
+poly f48 = kA*(gX + pgX) + kB*(gY + pgY) + 2*kC;//srednja tacka je na k
+poly f49 = aeA*pgX + aeB*pgY + aeC;//PG pripada AE
+
+//normalizacija
+poly f50 = abA^2 + abB^2 - 1;
+poly f51 = bcA^2 + bcB^2 - 1;
+poly f52 = cdA^2 + cdB^2 - 1;
+poly f53 = adA^2 + adB^2 - 1;
+poly f54 = aeA^2 + aeB^2 - 1;
+poly f55 = ihA^2 + ihB^2 - 1;
+poly f56 = gfA^2 + gfB^2 - 1;
+poly f57 = ipiA^2 + ipiB^2 - 1;
+poly f58 = apaA^2 + apaB^2 - 1;
+poly f59 = gpgA^2 + gpgB^2 - 1;
+poly f60 = kA^2 + kB^2 - 1;
+
+//koordinate tacaka
+poly f61 = aX;
+poly f62 = aY;
+poly f63 = bX - 1;
+poly f64 = bY;
+poly f65 = cX - 1;
+poly f66 = cY - 1;
+poly f67 = dX;
+poly f68 = dY - 1;
+poly f70 = eY - 1;
+poly f71 = paY - 0.25;
+
+//paralelnost AB||CD, AD||BC, GF || AB, IH || AB, IH || GF
+poly f72 = abA*cdB - abB*cdA;
+poly f73 = adA*bcB - adB*bcA;
+poly f74 = gfA*abB - gfB*abA;
+poly f75 = gfA*cdB - gfB*cdA;
+poly f76 = ihA*abB - ihB*abA;
+poly f77 = ihA*gfB - ihB*gfA;
+poly f78 = ihA*cdB - ihB*cdA;
+
+poly f79 = paX*tgalpha - paY;
+poly g1 = piY*tgalpha^2 + 2*piX*tgalpha -piY; 
+poly g2 = pgX*tgalpha^3 - 3*pgY*tgalpha^2-3*pgX*tgalpha+pgY;
+
+ideal I = f1, f2, f3, f4, f5, f6, f7, f8, f9, f10,  f11, f12, f13, f14, f15, f16, f17, f18, f19, f20, f21, f22, f23, f24, f25, f26, f27, f28, f29, f30, f31, f32, f33, f34, f35, f36, f37, f38, f39, f40, f41, f42, f43, f44, f45, f46, f47, f48, f49, f50, f51, f52, f53, f54, f55, f56, f57, f58, f59, f60, f61, f62, f64, f67, f68, f70, f71, f79, g1;
+ideal G = groebner(I);
+
+G;
+poly rez1 = reduce(g1, G);
+poly rez2 = reduce(g2, G);
+
+if(rez1 == 0 && rez2 == 0){
+    printf("resava");
+}else
+ {
+    printf("ne resava");
+   }
