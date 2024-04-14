@@ -1,0 +1,138 @@
+ring r = (real, Ex), (A(1..2), B(1..2), C(1..2), D(1..2), Ey, G(1..2), F(1..2), I(1..2), H(1..2), A1(1..2), G1(1..2), I1(1..2), AB(1..3), BC(1..3), CD(1..3), AD(1..3), AE(1..3), GF(1..3), IH(1..3), AG(1..3), BF(1..3), AG1(1..3), GG1(1..3), AI1(1..3), II1(1..3), AA1(1..3), k(1..3), tgalpha), Dp;
+
+proc onLine(list P, list k){
+    
+    poly g = k[1]*P[1]+k[2]*P[2]+k[3];
+    return(g);
+}
+
+proc perpendicular(list m, list n){
+
+    poly g = m[1]*n[1] + m[2]*n[2]; 
+    return(g);
+}
+
+proc normalized(list n){
+    poly g = n[1]^2 + n[2]^2 - 1; 
+    return(g);
+}
+
+proc midpoint(list M, list P, list Q){
+    poly f = -2*M[1] + P[1] + Q[1]; 
+    poly g = -2*M[2] + P[2] + Q[2];
+    return(list(f, g));
+}
+
+proc middlePoint(list P, list Q, list k){
+
+    poly g = k[1]*(P[1] + Q[1]) + k[2]*(P[2] + Q[2]) + 2*k[3]; 
+    return(g);
+}
+
+
+
+//Square edges AB, BC, CD, AD
+poly f1 = onLine(list(A(1..2)), list(AB(1..3))); //A belongs to AB
+poly f2 = onLine(list(B(1..2)), list(AB(1..3))); //B belongs to AB
+poly f3 = onLine(list(B(1..2)), list(BC(1..3))); //B belongs to BC
+poly f4 = onLine(list(C(1..2)), list(BC(1..3))); //C belongs to BC
+poly f5 = onLine(list(C(1..2)), list(CD(1..3))); //C belongs to CD
+poly f6 = onLine(list(D(1..2)), list(CD(1..3))); //D belongs to CD
+poly f7 = onLine(list(D(1..2)), list(AD(1..3))); //D belongs to AD
+poly f8 = onLine(list(A(1..2)), list(AD(1..3))); //A belongs to AD
+poly f9 = onLine(list(Ex, Ey), list(CD(1..3))); //E belongs to CD
+poly f10 = onLine(list(Ex, Ey), list(AE(1..3))); //E belongs to AE
+poly f11 = onLine(list(A(1..2)), list(AE(1..3))); //A belongs to AE
+
+poly f12 = perpendicular(list(AB(1..3)), list(BC(1..3))); //AB perpendicular to BC
+poly f13 = perpendicular(list(AB(1..3)), list(AD(1..3))); //AB perpendicular to AD
+poly f14 = perpendicular(list(CD(1..3)), list(BC(1..3))); //CD perpendicular to BC
+poly f15 = perpendicular(list(CD(1..3)), list(AD(1..3))); //CD perdendicular to AD
+
+//A2
+poly f16 = perpendicular(list(AD(1..3)), list(GF(1..3))); //AD perpendicular to GF
+poly f17 = perpendicular(list(BC(1..3)), list(GF(1..3))); //BC perpendicular to GF
+poly f18 = onLine(list(G(1..2)), list(AD(1..3))); //G belongs to AD
+poly f19 = onLine(list(F(1..2)), list(BC(1..3))); //F belongs to BC
+list midpointADG = midpoint(list(G(1..2)), list(A(1..2)), list(D(1..2)));
+poly f20 = midpointADG[1];
+poly f21 = midpointADG[2];  //G is midpoint AD
+poly f22 = onLine(G(1..2), GF(1..3)); //G belongs to GF
+poly f23 = onLine(F(1..2), GF(1..3))); //F belongs to GF
+list midpointBCF = midpoint(list(F(1..2)), list(B(1..2)), list(C(1..2)));
+poly f24 = midpointBCF[1]; //F is midpoint BC
+poly f25 = midpointBCF[2];
+
+//A2
+poly f26 = perpendicular(list(AD(1..3)), list(IH(1..3))); //IH perpendicular AD
+poly f27 = perpendicular(list(BC(1..3)), list(IH(1..3))); //IH perpendicular BC
+list midpointAGI = midpoint(list(I(1..2)), list(A(1..2)), list(G(1..2)));
+poly f28 = midpointAGI[1]; //I is midpoint AG
+poly f29 = midpointAGI[2];
+list midpointBFH = midpoint(list(H(1..2)), list(B(1..2)), list(F(1..2)));
+poly f30 = midpointBFH[1]; //H is midpoint BF
+poly f31 = midpointBFH[2];
+poly f32 = onLine(list(I(1..2)), list(IH(1..3))); //I belongs to IH
+poly f33 = onLine(list(H(1..2)), list(IH(1..3))); //H belongs to IH
+poly f34 = onLine(list(I(1..2)), list(AD(1..3))); //I belongs to AD
+poly f35 = onLine(list(H(1..2)), list(BC(1..3))); //H belongs to BC
+
+//A6 A onto IH, G onto AE
+poly f36 = onLine(list(A(1..2)), list(AA1(1..3))); //A belongs to AA1
+poly f37 = onLine(list(A1(1..2)), list(AA1(1..3))); //A1 belongs to AA1
+poly f38 = perpendicular(list(k(1..3)), list(AA1(1..3))); //AA1 perdendicular to k
+poly f39 = middlePoint(list(A(1..2)), list(A1(1..2)), list(k(1..2))) //midpoint of AA1 belongs to k
+poly f40 = onLine(list(A1(1..2)), list(IH(1..3))); //A1 belongs to IH
+
+poly f41 = onLine(list(G(1..2)), list(GG1(1..3))); //G belongs to GG1
+poly f42 = onLine(list(G1(1..2)), list(GG1(1..3))); //G1 belongs to GG1
+poly f43 = perpendicular(list(k(1..3)), list(GG1(1..3))); //GG1 perpendicular k
+poly f44 = middlePoint(list(G(1..2)), list(G1(1..2)), list(k(1..3))); //middlepoint of GG1 belongs to k
+poly f45 = onLine(list(G1(1..2)), list(AE(1..3))); //G1  belongs to AE
+
+list midpointA1G1I1 = midpoint(list(A1(1..2)), list(G1(1..2)), list(I1(1..2)));
+poly f46 = midpointA1G1I1[1];
+poly f47 = midpointA1G1I1[2];
+
+//normalized
+poly f48 = normalized(list(AB(1..3))); 
+poly f49 = normalized(list(BC(1..3)));
+poly f50 = normalized(list(CD(1..3)));
+poly f51 = normalized(list(AD(1..3)));
+poly f52 = normalized(list(AE(1..3)));
+poly f53 = normalized(list(IH(1..3)));
+poly f54 = normalized(list(GF(1..3)));
+poly f55 = normalized(list(AA1(1..3)));
+poly f56 = normalized(list(GG1(1..3)));
+poly f57 = normalized(list(k(1..3)));
+
+
+//coordinates 
+poly f58 = A(1);
+poly f59 = A(2);
+poly f60 = B(1) - 1;
+poly f61 = B(2);
+poly f62 = C(1) - 1;
+poly f63 = C(2) - 1;
+poly f64 = D(1);
+poly f65 = B(2) - 1;
+poly f66 = Ey - 1;
+
+poly f67 = A1(1)*tgalpha - A1(2);
+poly g1 = I1(1)*tgalpha^2 + 2*I1(1)*tgalpha - I1(2); 
+poly g2 = G1(1)*tgalpha^3 - 3*G1(2)*tgalpha^2 - 3*G1(1)*tgalpha + G1(2);
+
+ideal Ideal = f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16, f17, f18, f19, f20, f21, f22, f23, f24, f25, f26, f27, f28, f29, f30, f41, f42, f43, f44, f45, f46, f47, f48, f49, f50, f51, f52, f53, f54, f55, f56, f57, f58, f59, f60, f61, f62, f63, f64, f65, f66, f67;
+
+ideal G = groebner(Ideal);
+
+poly rez1 = reduce(g1, G);
+poly rez2 = reduce(g2, G);
+
+if(rez1 == 0 && rez2 ==0){
+    printf("resava");
+}else
+ {
+    printf("ne resava");
+   }
+
