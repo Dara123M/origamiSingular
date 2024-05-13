@@ -1,0 +1,47 @@
+proc makePoint(list x){
+    return([x[1], x[2]]);
+}
+
+proc makeLine(list x){
+    return([x[1], x[2], x[3]]);
+}
+
+proc onLine(vector P, vector k){
+    poly g = k[1]*P[1]+k[2]*P[2]+k[3];
+    return(g);
+}
+
+proc perpendicular(vector m, vector n){
+    poly g = m[1]*n[1] + m[2]*n[2]; 
+    return(g);
+}
+
+proc parallel(vector m, vector n){
+    poly g = m[1]*n[2]-m[2]*n[1];
+    return(g);
+}
+
+proc normalized(vector n){
+    poly g = n[1]^2 + n[2]^2 - 1; 
+    return(g);
+}
+
+proc midpoint(vector M, vector P, vector Q){
+    poly f = -2*M[1] + P[1] + Q[1]; 
+    poly g = -2*M[2] + P[2] + Q[2];
+    return([f, g]);
+}
+
+proc middlePoint(vector P, vector Q, vector k){
+
+    poly g = k[1]*(P[1] + Q[1]) + k[2]*(P[2] + Q[2]) + 2*k[3]; 
+    return(g);
+}
+
+proc distancePoints(vector P, vector Q){
+    
+    poly g = (P[1] - Q[1])^2 + (P[2] - Q[2])^2;
+    return(g);
+}
+
+
