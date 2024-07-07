@@ -1,34 +1,55 @@
 LIB "origami.lib";
 
-ring r = (real, Ex), (a, ni, pointA(1..2), pointB(1..2), pointC(1..2), pointD(1..2), Ey, pointG(1..2), pointF(1..2), pointI(1..2), pointH(1..2), pointA1(1..2), pointG1(1..2), pointI1(1..2), pointAp(1..2), lineAB(1..3), lineBC(1..3), lineCD(1..3), lineAD(1..3), lineAE(1..3), lineGF(1..3), lineIH(1..3), lineAG(1..3), lineAI(1..3), lineBF(1..3), lineGG1(1..3), lineII1(1..3), lineAA1(1..3), linek(1..3), lineAG1(1..3), lineAI1(1..3), lineG1I1(1..3), lineI1A1(1..3), lineA1Ap(1..3), lineIA1(1..3), lineG1A1(1..3)), Dp;
-
+ring r = (real, 3), (pointA(1..2), pointB(1..2), pointC(1..2), pointD(1..2),Ex, Ey, pointE(1..2), pointG(1..2), pointF(1..2), pointI(1..2), pointH(1..2), pointA1(1..2), pointG1(1..2), pointI1(1..2), pointAp(1..2), lineAB(1..3), lineBC(1..3), lineCD(1..3), lineAD(1..3), lineAE(1..3), lineGF(1..3), lineIH(1..3), lineAG(1..3), lineAI(1..3), lineBF(1..3), lineGG1(1..3), lineII1(1..3), lineAA1(1..3), linek(1..3), lineAG1(1..3), lineAI1(1..3), lineG1I1(1..3), lineI1A1(1..3), lineA1Ap(1..3), lineIA1(1..3), lineG1A1(1..3), dG1A1, dG1I1, dI1A1, dAG1, dAI1, dAA1, dA1Ap, a, ni, p, p1, p2), Dp;
+/*
 proc SAS(vector P, vector Q, vector R, vector S, vector m, vector n, ideal G){
-    poly g1 = distancePoints(P, Q) - distancePoints(Q, R);
-    poly g2 = distancePoints(S, P) - distancePoints(S, R);
-    poly g3 = perpendicular(m, n);
+    poly g1 = dSquared(P, Q) - dSquared(Q, R);
+    poly g2 = dSquared(S, P) - dSquared(S, R);
+    poly g3 = perp(m, n);
     poly r1 = reduce(g1, G);
     poly r2 = reduce(g2, G);
     poly r3 = reduce(g3, G);
-    
+    r1;
+    r2;
+    r3;
     return(r1==0 && r2==0 && r3==0);
 }
 
 proc SSA(vector P, vector Q, vector R, vector S, vector m, vector n, ideal G){
-    poly g1 = distancePoints(P, Q) - distancePoints(Q, R);
-    poly g2 = distancePoints(S, P) - distancePoints(S, R);
-    poly g3 = perpendicular(m, n);
+    poly g1 = dSquared(P, Q) - dSquared(Q, R);
+    poly g2 = dSquared(S, P) - dSquared(S, R);
+    poly g3 = perp(m, n);
     poly r1 = reduce(g1, G);
     poly r2 = reduce(g2, G);
     poly r3 = reduce(g3, G);
-    
+    r1;
+    r2;
+    r3;
     return(r1==0 && r2==0 && r3==0);
 
+}
+*/
+
+
+proc SSA(def da1, def da2, def db1, def db2, vector n, vector m, ideal G){
+    poly r1 = reduce(da1 - da2, G);
+    poly r2 = reduce(db1 - db2, G);
+    poly r3 = reduce(perp(n, m), G);
+    return(r1==0 && r2==0 && r3==0);
+}
+
+proc SAS(def da1, def da2, vector n, vector m, def db1, def db2, ideal G){
+    poly r1 = reduce(da1 - da2, G);
+    poly r2 = reduce(db1 - db2, G);
+    poly r3 = reduce(perp(n, m), G);
+    return(r1==0 && r2==0 && r3==0);
 }
 //defining points as vectors
 vector A = makePoint(list(pointA(1..2)));
 vector B = makePoint(list(pointB(1..2)));
 vector C = makePoint(list(pointC(1..2)));
 vector D = makePoint(list(pointD(1..2)));
+vector E = makePoint(list(pointE(1..2)));
 vector G = makePoint(list(pointG(1..2)));
 vector F = makePoint(list(pointF(1..2)));
 vector I = makePoint(list(pointI(1..2)));
@@ -76,131 +97,121 @@ poly f9 = onLine([Ex, Ey], CD); //E belongs to CD
 poly f10 = onLine([Ex, Ey], AE); //E belongs to AE
 poly f11 = onLine(A, AE); //A belongs to AE
 
-poly f12 = perpendicular(AB, BC); //AB perpendicular to BC
-poly f13 = perpendicular(AB, AD); //AB perpendicular to AD
-poly f14 = perpendicular(CD, BC); //CD perpendicular to BC
-poly f15 = perpendicular(CD, AD); //CD perdendicular to AD
-poly f16 = parallel(AB, CD); //AB parallel to CD
-poly f17 = parallel(BC, AD); //BC parallel to AD
+poly f12 = perp(AB, BC); //AB perpendicular to BC
+poly f13 = perp(AB, AD); //AB perpendicular to AD
+poly f14 = perp(CD, BC); //CD perpendicular to BC
+poly f15 = perp(CD, AD); //CD perdendicular to AD
 
 //A2
-poly f18 = perpendicular(AD, GF); //AD perpendicular to GF
-poly f19 = perpendicular(BC, GF); //BC perpendicular to GF
-poly f20 = onLine(G, AD); //G belongs to AD
-poly f21 = onLine(F, BC); //F belongs to BC
+poly f16 = perp(AD, GF); //AD perpendicular to GF
+poly f17 = perp(BC, GF); //BC perpendicular to GF
+poly f18 = onLine(G, AD); //G belongs to AD
+poly f19 = onLine(F, BC); //F belongs to BC
 vector midpointADG = midpoint(G, A, D);
-poly f22 = midpointADG[1];
-poly f23 = midpointADG[2];  //G is midpoint AD
-poly f24 = onLine(G, GF); //G belongs to GF
-poly f25 = onLine(F, GF); //F belongs to GF
+poly f20 = midpointADG[1];
+poly f21 = midpointADG[2];  //G is midpoint AD
+poly f22 = onLine(G, GF); //G belongs to GF
+poly f23 = onLine(F, GF); //F belongs to GF
 vector midpointBCF = midpoint(F, B, C);
-poly f26 = midpointBCF[1]; //F is midpoint BC
-poly f27 = midpointBCF[2];
-poly f28 = parallel(AB, GF); //AB parallel to GF
-poly f29 = parallel(CD, GF);
+poly f24 = midpointBCF[1]; //F is midpoint BC
+poly f25 = midpointBCF[2];
+
 //A2
-poly f30 = perpendicular(AD, IH); //IH perpendicular AD
-poly f31 = perpendicular(BC, IH); //IH perpendicular BC
+poly f26 = perp(AD, IH); //IH perpendicular AD
+poly f27 = perp(BC, IH); //IH perpendicular BC
 vector midpointAGI = midpoint(I, A, G);
-poly f32 = midpointAGI[1]; //I is midpoint AG
-poly f33 = midpointAGI[2];
+poly f28 = midpointAGI[1]; //I is midpoint AG
+poly f29 = midpointAGI[2];
 vector midpointBFH = midpoint(H, B, F);
-poly f34 = midpointBFH[1]; //H is midpoint BF
-poly f35 = midpointBFH[2];
-poly f36 = onLine(I, IH); //I belongs to IH
-poly f37 = onLine(H, IH); //H belongs to IH
-poly f38 = onLine(I, AD); //I belongs to AD
-poly f39 = onLine(H, BC); //H belongs to BC
-poly f40 = parallel(AB, IH); //AB parallel to IH
-poly f41 = parallel(CD, IH);
-poly f42 = parallel(GF, IH);
+poly f30 = midpointBFH[1]; //H is midpoint BF
+poly f31 = midpointBFH[2];
+poly f32 = onLine(I, IH); //I belongs to IH
+poly f33 = onLine(H, IH); //H belongs to IH
+poly f34 = onLine(I, AD); //I belongs to AD
+poly f35 = onLine(H, BC); //H belongs to BC
+
 
 //A6 A onto IH, G onto AE
-poly f43 = onLine(A, AA1); //A belongs to AA1
-poly f44 = onLine(A1, AA1); //A1 belongs to AA1
-poly f45 = perpendicular(k, AA1); //AA1 perdendicular to k
-poly f46 = middlePoint(A, A1, k); //midpoint of AA1 belongs to k
-poly f47 = onLine(A1, IH); //A1 belongs to IH
+poly f36 = onLine(A, AA1); //A belongs to AA1
+poly f37 = onLine(A1, AA1); //A1 belongs to AA1
+poly f38 = perp(k, AA1); //AA1 perpendicular to k
+poly f39 = midPointOnLine(A, A1, k); //midpoint of AA1 belongs to k
+poly f40 = onLine(A1, IH); //A1 belongs to IH
 
-poly f48 = onLine(G, GG1); //G belongs to GG1
-poly f49 = onLine(G1, GG1); //G1 belongs to GG1
-poly f50 = perpendicular(k, GG1); //GG1 perpendicular k
-poly f51 = middlePoint(G, G1, k); //middlepoint of GG1 belongs to k
-poly f52 = onLine(G1, AE); //G1  belongs to AE
+poly f41 = onLine(G, GG1); //G belongs to GG1
+poly f42 = onLine(G1, GG1); //G1 belongs to GG1
+poly f43 = perp(k, GG1); //GG1 perpendicular k
+poly f44 = midPointOnLine(G, G1, k); //middlepoint of GG1 belongs to k
+poly f45 = onLine(G1, AE); //G1  belongs to AE
 
 
 //normalized 
-poly f53 = normalized(AB); 
-poly f54 = normalized(BC);
-poly f55 = normalized(CD);
-poly f56 = normalized(AD);
-poly f57 = normalized(AE);
-poly f58 = normalized(IH);
-poly f59 = normalized(GF);
-poly f60 = normalized(AA1);
-poly f61 = normalized(GG1);
-poly f62 = normalized(k);
-poly f63 = normalized(AG);
-poly f64 = normalized(BF);
+poly f46 = normalized(AB); 
+poly f47 = normalized(BC);
+poly f48 = normalized(CD);
+poly f49 = normalized(AD);
+poly f50 = normalized(AE);
+poly f51 = normalized(IH);
+poly f52 = normalized(GF);
+poly f53 = normalized(AA1);
+poly f54 = normalized(GG1);
+poly f55 = normalized(k);
+
 
 
 //coordinates 
-poly f65 = A[1];
-poly f66 = A[2];
-poly f67 = B[1] - a;
-poly f68 = B[2];
-poly f69 = C[1] - a;
-poly f70 = C[2] - a;
-poly f71 = D[1];
-poly f72 = D[2] - a;
-poly f73 = Ey - a;
-poly f74 = a*ni-1;
+poly f56 = A[1];
+poly f57 = A[2];
+poly f58 = B[1] - a;
+poly f59 = B[2];
+poly f60 = C[1] - a;
+poly f61 = C[2] - a;
+poly f62 = D[1];
+poly f63 = D[2] - a;
+poly f64 = Ey - a;
+poly f65 = a*ni-1;
 
 
-poly f75 = onLine(A1, G1A1); // A1 belongs to G1A1
-poly f76 = onLine(G1, G1A1); // G1 belongs to G1A1
-poly f77 = onLine(A, AI1); //A belongs to AI1
-poly f78 = onLine(I1, AI1); //I1 belongs to AI1
-poly f79 = onLine(I1, G1A1); //I1  belongs to G1A1
-vector midpointG1A1I1 = midpoint(I1, A1, G1);
-poly f80 = midpointG1A1I1[1];
-poly f81 = midpointG1A1I1[2];
-poly f82 = onLine(A, AG1);
-poly f83 = onLine(G1, AG1);
-poly f84 = onLine(A, AI1);
-poly f85 = onLine(I1, AI1);
-poly f86 = onLine(A1, A1Ap);
-poly f87 = onLine([A1[1], 0], A1Ap);
-poly f88 = normalized(AG1);
-poly f89 = normalized(AI1);
-poly f90 = normalized(AA1);
-poly f91 = normalized(A1Ap);
-poly f92 = normalized(G1A1);
+poly f66 = onLine(A1, G1A1); // A1 belongs to G1A1
+poly f67 = onLine(G1, G1A1); // G1 belongs to G1A1
+poly f68 = onLine(A, AI1); //A belongs to AI1
+poly f69 = onLine(I1, AI1); //I1 belongs to AI1
+poly f70 = onLine(I1, G1A1); //I1  belongs to G1A1
+vector midpointG1A1I1 = midpoint(I1, A1, G1); //I1 is midpoint to A1 and G1
+poly f71 = midpointG1A1I1[1]; 
+poly f72 = midpointG1A1I1[2];
+poly f73 = onLine(A, AG1); //A belongs to AG1
+poly f74 = onLine(G1, AG1); //G1 belongs to AG1
+poly f75 = onLine(A, AI1); //A belongs to AI1
+poly f76 = onLine(I1, AI1); //I1 belongs to AI1
+poly f77 = onLine(A1, A1Ap); //A1 belongs to A1Ap
+poly f78 = onLine([A1[1], 0], A1Ap); //Ap belongs to A1Ap
+poly f79 = normalized(AG1); 
+poly f80 = normalized(AI1);
+poly f81 = normalized(A1Ap);
+poly f82 = normalized(G1A1);
+poly f83 = dG1I1^2 - (G1[1] - I1[1])^2 - (G1[2] - I1[2])^2;
+poly f84 = dI1A1^2 - (I1[1] - A1[1])^2 - (I1[2] - A1[2])^2;
+poly f85 = dAG1^2 - (A[1] - G1[1])^2 - (A[2] - G1[2])^2;
+poly f86 = dAA1^2 - (A[1] - A1[1])^2 - (A[2] - A1[2])^2;
+poly f87= dA1Ap^2 - (A1[1] - A1[1])^2 - (0 - A1[2])^2;
 
 
+poly f88 = p1*I1[1] - 1;
+poly f89 = p2*I1[2] - 1;
 
-/*
-poly g1 = distancePoints(G1, I1) - distancePoints(A1, I1);
-poly g2 = distancePoints(A, G1) - distancePoints(A, A1);
-poly g3 = distancePoints(A1, [A1[1], 0]) - distancePoints(I1, A1);
-poly g4 = distancePoints(A, [A1[1], 0]) - distancePoints(A, I1);
-poly g5 = perpendicular(AI1, G1A1);
-poly g6 = perpendicular(A1Ap, AB);
-*/
-
-
-ideal Ideal = f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16, f17, f18, f19, f20, f21, f22, f23, f24, f25, f26, f27, f28, f29, f30, f31, f32, f33, f34, f35, f36, f37, f38, f39, f40, f41, f42, f43, f44, f45, f46, f47, f48, f49, f50, f51, f52, f53, f54, f55, f56, f57, f58, f59, f60, f61, f62, f63, f64, f65, f66, f67, f68, f69, f70, f71, f72, f73, f74, f75, f76, f77, f78, f79, f80, f81, f82, f83, f84, f85, f86, f87, f88, f89, f90, f91, f92; 
+ideal Ideal = f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16, f17, f18, f19, f20, f21, f22, f23, f24, f25, f26, f27, f28, f29, f30, f31, f32, f33, f34, f35, f36, f37, f38, f39, f40, f41, f42, f43, f44, f45, f46, f47, f48, f49, f50, f51, f52, f53, f54, f55, f56, f57, f58, f59, f60, f61, f62, f63, f64, f65, f66, f67, f68, f69, f70, f71, f72, f73, f74, f75, f76, f77, f78, f79, f80, f81, f82, f83, f84, f85, f86, f87, f88, f89; 
 
 ideal Groebner = groebner(Ideal);
+Groebner;
+//poly g = perp(G1A1, AI1);
+//poly rez = reduce(g, Groebner);
+//poly rez1 = reduce((A1[1]-G1[1])*(I1[1]-A[1]) + (A1[2]-G1[2])*(I1[2] - A[2]), Groebner);
 
-/*
-def sas = SAS(G1, I1, A1, A, AI1, G1A1, Groebner);
-def ssa = SSA(I1, A1, [A1[1], 0],  A,  A1Ap, AB, Groebner);
-*/
-if(SSA(I1, A1, [A1[1], 0],  A,  A1Ap, AB, Groebner) && SAS(G1, I1, A1, A, AI1, G1A1, Groebner))
-{
-    printf("resava");
+
+if(SAS(dG1I1, dI1A1, G1A1, AI1, dAI1, dAI1, Groebner) && SSA(dI1A1, dA1Ap, dAA1, dAA1, A1Ap, AB, Groebner)){
+    printf("solves");
+}else{
+    printf("does not solve");
 }
-else{
-    printf("ne resava");
-}
+

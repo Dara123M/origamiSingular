@@ -1,118 +1,146 @@
-ring A1 = (real, eX), ( abA, abB, abC, bcA, bcB, bcC, cdA, cdB, cdC, adA, adB, adC, gfA, gfB, gfC, ihA, ihB, ihC, aeA, aeB, aeC, apaA, apaB, apaC, gpgA, gpgB, gpgC, ipiA, ipiB, ipiC, kA, kB, kC, aX, aY, bX, bY, cX, cY, dX, dY, eY, gX, gY, iX, iY, hX, hY, fX, fY, paX, paY, pgX, pgY, piX, piY, tgalpha, tg2alpha, tg3alpha), Dp;
+LIB "origami.lib";
 
-//Postavke kvadrata
+ring r = real, (pointA(1..2), pointB(1..2), pointC(1..2), pointD(1..2), pointE(1..2), pointG(1..2), pointF(1..2), pointI(1..2), pointH(1..2), pointA1(1..2), pointG1(1..2), pointI1(1..2), pointAp(1..2), lineAB(1..3), lineBC(1..3), lineCD(1..3), lineAD(1..3), lineAE(1..3), lineGF(1..3), lineIH(1..3), lineAG(1..3), lineAI(1..3), lineBF(1..3), lineGG1(1..3), lineII1(1..3), lineAA1(1..3), linek(1..3), lineAG1(1..3), lineAI1(1..3), lineG1I1(1..3), lineI1A1(1..3), lineA1Ap(1..3), lineIA1(1..3), lineG1A1(1..3), a, ni, t), Dp;
 
-poly f1 = abA*aX + abB*aY + abC;//A pripada AB
-poly f2 = abA*bX + abB*bY + abC;//B pripada AB
-poly f3 = bcA*bX + bcB*bY + bcC;//B pripada BC
-poly f4 = bcA*cX + bcB*cY + bcC;//C pripada BC
-poly f5 = cdA*cX + cdB*cY + cdC;//C pripada CD
-poly f6 = cdA*dX + cdB*dY + cdC;//D pripada CD
-poly f7 = adA*dX + adB*dY + adC;//D pripada AD
-poly f8 = adA*aX + adB*aY + adC;//A pripada AD
-poly f9 = adA*abA + adB*abB;//AD normalno na AB
-poly f10 = adA*cdA + adB*cdB;//AD normalno na CD
-poly f11 = bcA*abA + bcB*abB;//BC normalno na AB
-poly f12 = bcA*cdA + bcB*cdB;//BC normalno na CD
-poly f13 = cdA*eX + cdB*eY + cdC;//E pripada CD
-poly f14 = aeA*aX + aeB*aY + aeC;//A pripada AE
-poly f15 = aeA*eX + aeB*eY + aeC;//E pripada AE
+//defining points as vectors
+vector A = makePoint(list(pointA(1..2)));
+vector B = makePoint(list(pointB(1..2)));
+vector C = makePoint(list(pointC(1..2)));
+vector D = makePoint(list(pointD(1..2)));
+vector E = makePoint(list(pointE(1..2)));
+vector G = makePoint(list(pointG(1..2)));
+vector F = makePoint(list(pointF(1..2)));
+vector I = makePoint(list(pointI(1..2)));
+vector H = makePoint(list(pointH(1..2)));
+vector A1 = makePoint(list(pointA1(1..2)));
+vector G1 = makePoint(list(pointG1(1..2)));
+vector I1 = makePoint(list(pointI1(1..2)));
+
+//defining lines as vectors
+vector AB = makeLine(list(lineAB(1..3)));
+vector BC = makeLine(list(lineBC(1..3)));
+vector CD = makeLine(list(lineCD(1..3)));
+vector AD = makeLine(list(lineAD(1..3)));
+vector AE = makeLine(list(lineAE(1..3)));
+vector GF = makeLine(list(lineGF(1..3)));
+vector IH = makeLine(list(lineIH(1..3)));
+vector GG1 = makeLine(list(lineGG1(1..3)));
+vector AA1 = makeLine(list(lineAA1(1..3)));
+vector k = makeLine(list(linek(1..3)));
+
+
+//Square edges AB, BC, CD, AD
+poly f1 = onLine(A, AB); //A belongs to AB
+poly f2 = onLine(B, AB); //B belongs to AB
+poly f3 = onLine(B, BC); //B belongs to BC
+poly f4 = onLine(C, BC); //C belongs to BC
+poly f5 = onLine(C, CD); //C belongs to CD
+poly f6 = onLine(D, CD); //D belongs to CD
+poly f7 = onLine(D, AD); //D belongs to AD
+poly f8 = onLine(A, AD); //A belongs to AD
+poly f9 = onLine(E, CD); //E belongs to CD
+poly f10 = onLine(E, AE); //E belongs to AE
+poly f11 = onLine(A, AE); //A belongs to AE
+
+poly f12 = perp(AB, BC); //AB perpendicular to BC
+poly f13 = perp(AB, AD); //AB perpendicular to AD
+poly f14 = perp(CD, BC); //CD perpendicular to BC
+poly f15 = perp(CD, AD); //CD perdendicular to AD
 
 //A2
-
-poly f16 = adA*gfA + adB*gfB;//AD normalno na GF
-poly f17 = bcA*gfA + bcB*gfB;//BC normalno na GF
-poly f18 = adA*gX + adB*gY + adC;//G pripada AD
-poly f19 = bcA*fX + bcB*fY + bcC;//F pripada BC
-poly f20 = -2*gX + aX + dX;//G je srednja tacka
-poly f21 = -2*gY + aY + dY;
-poly f22 = gfA*gX + gfB*gY + gfC;//G pripada GF
-poly f23 = gfA*fX + gfB*fY + gfC;//F pripada GF
-poly f24 = -2*fX + bX + cX;//F je srednja tacka
-poly f25 = -2*fY + bY + cY;
+poly f16 = perp(AD, GF); //AD perpendicular to GF
+poly f17 = perp(BC, GF); //BC perpendicular to GF
+poly f18 = onLine(G, AD); //G belongs to AD
+poly f19 = onLine(F, BC); //F belongs to BC
+vector midpointADG = midpoint(G, A, D);
+poly f20 = midpointADG[1];
+poly f21 = midpointADG[2];  //G is midpoint AD
+poly f22 = onLine(G, GF); //G belongs to GF
+poly f23 = onLine(F, GF); //F belongs to GF
+vector midpointBCF = midpoint(F, B, C);
+poly f24 = midpointBCF[1]; //F is midpoint BC
+poly f25 = midpointBCF[2];
 
 //A2
+poly f26 = perp(AD, IH); //IH perpendicular AD
+poly f27 = perp(BC, IH); //IH perpendicular BC
+vector midpointAGI = midpoint(I, A, G);
+poly f28 = midpointAGI[1]; //I is midpoint AG
+poly f29 = midpointAGI[2];
+vector midpointBFH = midpoint(H, B, F);
+poly f30 = midpointBFH[1]; //H is midpoint BF
+poly f31 = midpointBFH[2];
+poly f32 = onLine(I, IH); //I belongs to IH
+poly f33 = onLine(H, IH); //H belongs to IH
+poly f34 = onLine(I, AD); //I belongs to AD
+poly f35 = onLine(H, BC); //H belongs to BC
 
-poly f26 = adA*ihA + adB*ihB;//IH normalno na AD
-poly f27 = bcA*ihA + bcB*ihB;//IH normalno na BC
-poly f28 = -2*iX + aX + gX;//I je srednja tacka AG
-poly f29 = -2*iY + aY + gY;
-poly f30 = -2*hX + bX + fX;//H je srednja tacka BF
-poly f31 = -2*hY + bY + fY;
-poly f32 = ihA*iX + ihB*iY + ihC;//I pripada IH
-poly f33 = ihA*hX + ihB*hY + ihC;//H pripada IH
-poly f34 = adA*iX + adB*iY + adC;//I pripada AD
-poly f35 = bcA*hX + bcB*hY + bcC;//H pripada BC
 
-//A2 I u PI
+//A6 A onto IH, G onto AE
+poly f36 = onLine(A, AA1); //A belongs to AA1
+poly f37 = onLine(A1, AA1); //A1 belongs to AA1
+poly f38 = perp(k, AA1); //AA1 perpendicular to k
+poly f39 = midPointOnLine(A, A1, k); //midpoint of AA1 belongs to k
+poly f40 = onLine(A1, IH); //A1 belongs to IH
 
-poly f36 = ipiA*iX + ipiB*iY + ipiC;//I pripada IPI
-poly f37 = ipiA*piX + ipiB*piY + ipiC;//PI pripada IPI
-poly f38 = ipiA*kA + ipiB*kB;//IPI normalno na k
-poly f39 = kA*(iX + piX) + kB*(iY + piY) + 2*kC;//srednja tacka je na k
+poly f41 = onLine(G, GG1); //G belongs to GG1
+poly f42 = onLine(G1, GG1); //G1 belongs to GG1
+poly f43 = perp(k, GG1); //GG1 perpendicular k
+poly f44 = midPointOnLine(G, G1, k); //middlepoint of GG1 belongs to k
+poly f45 = onLine(G1, AE); //G1  belongs to AE
 
-//A6 A na IH, G na AE
+//point I1 
+vector midpointI1A1G1 = midpoint(I1, G1, A1);
+poly f46 = midpointI1A1G1[1];
+poly f47 = midpointI1A1G1[2];
 
-poly f40 = apaA*aX + apaB*aY + apaC;//A pripada APA
-poly f41 = apaA*paX + apaB*paY + apaC;//PA pripada APA
-poly f42 = apaA*kA + apaB*kB;//APA normalno na k
-poly f43 = kA*(aX + paX) + kB*(aY + paY) + 2*kC;//srednja tacka je na k
-poly f44 = ihA*paX + ihB*paY + ihC;//PA pripada IH
 
-poly f45 = gpgA*gX + gpgB*gY + gpgC;//G pripada PGP
-poly f46 = gpgA*pgX + gpgB*pgY + gpgC;//PG pripada PGP
-poly f47 = gpgA*kA + gpgB*kB;//PGP normalno na k
-poly f48 = kA*(gX + pgX) + kB*(gY + pgY) + 2*kC;//srednja tacka je na k
-poly f49 = aeA*pgX + aeB*pgY + aeC;//PG pripada AE
+//normalized 
+poly f48 = normalized(AB); 
+poly f49 = normalized(BC);
+poly f50 = normalized(CD);
+poly f51 = normalized(AD);
+poly f52 = normalized(AE);
+poly f53 = normalized(IH);
+poly f54 = normalized(GF);
+poly f55 = normalized(AA1);
+poly f56 = normalized(GG1);
+poly f57 = normalized(k);
 
-//normalizacija
-poly f50 = abA^2 + abB^2 - 1;
-poly f51 = bcA^2 + bcB^2 - 1;
-poly f52 = cdA^2 + cdB^2 - 1;
-poly f53 = adA^2 + adB^2 - 1;
-poly f54 = aeA^2 + aeB^2 - 1;
-poly f55 = ihA^2 + ihB^2 - 1;
-poly f56 = gfA^2 + gfB^2 - 1;
-poly f57 = ipiA^2 + ipiB^2 - 1;
-poly f58 = apaA^2 + apaB^2 - 1;
-poly f59 = gpgA^2 + gpgB^2 - 1;
-poly f60 = kA^2 + kB^2 - 1;
 
-//koordinate tacaka
-poly f61 = aX;
-poly f62 = aY;
-poly f63 = bX - 1;
-poly f64 = bY;
-poly f65 = cX - 1;
-poly f66 = cY - 1;
-poly f67 = dX;
-poly f68 = dY - 1;
-poly f70 = eY - 1;
-poly f71 = paY - 0.25;
+//coordinates 
+poly f58 = A[1];
+poly f59 = A[2];
+poly f60 = B[1] - a;
+poly f61 = B[2];
+poly f62 = C[1] - a;
+poly f63 = C[2] - a;
+poly f64 = D[1];
+poly f65 = D[2] - a;
+poly f66 = E[2] - a;
+poly f67 = a*ni-1;
 
-//paralelnost AB||CD, AD||BC, GF || AB, IH || AB, IH || GF
-poly f72 = abA*cdB - abB*cdA;
-poly f73 = adA*bcB - adB*bcA;
-poly f74 = gfA*abB - gfB*abA;
-poly f75 = gfA*cdB - gfB*cdA;
-poly f76 = ihA*abB - ihB*abA;
-poly f77 = ihA*gfB - ihB*gfA;
-poly f78 = ihA*cdB - ihB*cdA;
+poly f68 = A1[1]*t - A1[2];
+poly g1 = I1[2]*t^2 + 2*I1[1]*t - I1[2];
+poly g2 = G1[1]*t^3 - 3*G1[2]*t^2 - 3*G1[1]*t + G1[2];
 
-poly f79 = paX*tgalpha - paY;
-poly g1 = piY*tgalpha^2 + 2*piX*tgalpha -piY; 
-poly g2 = pgX*tgalpha^3 - 3*pgY*tgalpha^2-3*pgX*tgalpha+pgY;
+ideal Ideal = f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16, f17, f18, f19, f20, f21, f22, f23, f24, f25, f26, f27, f28, f29, f30, f31, f32, f33, f34, f35, f36, f37, f38, f39, f40, f41, f42, f43, f44, f45, f46, f47, f48, f49, f50, f51, f52, f53, f54, f55, f56, f57, f58, f59, f60, f61, f62, f63, f64, f65, f66, f67, f68; 
 
-ideal I = f1, f2, f3, f4, f5, f6, f7, f8, f9, f10,  f11, f12, f13, f14, f15, f16, f17, f18, f19, f20, f21, f22, f23, f24, f25, f26, f27, f28, f29, f30, f31, f32, f33, f34, f35, f36, f37, f38, f39, f40, f41, f42, f43, f44, f45, f46, f47, f48, f49, f50, f51, f52, f53, f54, f55, f56, f57, f58, f59, f60, f61, f62, f64, f67, f68, f70, f71, f79, g1;
-ideal G = groebner(I);
+ideal Groebner = groebner(Ideal);
 
-G;
-poly rez1 = reduce(g1, G);
-poly rez2 = reduce(g2, G);
 
-if(rez1 == 0 && rez2 == 0){
-    printf("resava");
+/*poly f69 = A1(1)*tgalpha - A1(2);
+poly g1 = I1(2)*tgalpha^2 + 2*I1(1)*tgalpha - I1(2); 
+poly g2 = G1(1)*tgalpha^3 - 3*G1(2)*tgalpha^2 - 3*G1(1)*tgalpha + G1(2);
+*/
+
+poly rez1 = reduce(g1, Groebner);
+poly rez2 = reduce(g2, Groebner);
+
+if(rez1 == 0 && rez2 ==0){
+    printf("solves");
 }else
  {
-    printf("ne resava");
+    printf("doesn't solve");
    }
+
