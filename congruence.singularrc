@@ -1,34 +1,6 @@
 LIB "origami.lib";
 
-ring r = (real, 3), (pointA(1..2), pointB(1..2), pointC(1..2), pointD(1..2),Ex, Ey, pointE(1..2), pointG(1..2), pointF(1..2), pointI(1..2), pointH(1..2), pointA1(1..2), pointG1(1..2), pointI1(1..2), pointAp(1..2), lineAB(1..3), lineBC(1..3), lineCD(1..3), lineAD(1..3), lineAE(1..3), lineGF(1..3), lineIH(1..3), lineAG(1..3), lineAI(1..3), lineBF(1..3), lineGG1(1..3), lineII1(1..3), lineAA1(1..3), linek(1..3), lineAG1(1..3), lineAI1(1..3), lineG1I1(1..3), lineI1A1(1..3), lineA1Ap(1..3), lineIA1(1..3), lineG1A1(1..3), dG1A1, dG1I1, dI1A1, dAG1, dAI1, dAA1, dA1Ap, a, ni, p, p1, p2), Dp;
-/*
-proc SAS(vector P, vector Q, vector R, vector S, vector m, vector n, ideal G){
-    poly g1 = dSquared(P, Q) - dSquared(Q, R);
-    poly g2 = dSquared(S, P) - dSquared(S, R);
-    poly g3 = perp(m, n);
-    poly r1 = reduce(g1, G);
-    poly r2 = reduce(g2, G);
-    poly r3 = reduce(g3, G);
-    r1;
-    r2;
-    r3;
-    return(r1==0 && r2==0 && r3==0);
-}
-
-proc SSA(vector P, vector Q, vector R, vector S, vector m, vector n, ideal G){
-    poly g1 = dSquared(P, Q) - dSquared(Q, R);
-    poly g2 = dSquared(S, P) - dSquared(S, R);
-    poly g3 = perp(m, n);
-    poly r1 = reduce(g1, G);
-    poly r2 = reduce(g2, G);
-    poly r3 = reduce(g3, G);
-    r1;
-    r2;
-    r3;
-    return(r1==0 && r2==0 && r3==0);
-
-}
-*/
+ring r = real, (pointA(1..2), pointB(1..2), pointC(1..2), pointD(1..2), Ex, Ey, pointE(1..2), pointG(1..2), pointF(1..2), pointI(1..2), pointH(1..2), pointA1(1..2), pointG1(1..2), pointI1(1..2), pointAp(1..2), lineAB(1..3), lineBC(1..3), lineCD(1..3), lineAD(1..3), lineAE(1..3), lineGF(1..3), lineIH(1..3), lineAG(1..3), lineAI(1..3), lineBF(1..3), lineGG1(1..3), lineII1(1..3), lineAA1(1..3), linek(1..3), lineAG1(1..3), lineAI1(1..3), lineG1I1(1..3), lineI1A1(1..3), lineA1Ap(1..3), lineIA1(1..3), lineG1A1(1..3), dG1A1, dG1I1, dI1A1, dAG1, dAI1, dAA1, dA1Ap, a, ni, p, p1, p2), Dp;
 
 
 proc SSA(def da1, def da2, def db1, def db2, vector n, vector m, ideal G){
@@ -203,10 +175,6 @@ poly f89 = p2*I1[2] - 1;
 ideal Ideal = f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16, f17, f18, f19, f20, f21, f22, f23, f24, f25, f26, f27, f28, f29, f30, f31, f32, f33, f34, f35, f36, f37, f38, f39, f40, f41, f42, f43, f44, f45, f46, f47, f48, f49, f50, f51, f52, f53, f54, f55, f56, f57, f58, f59, f60, f61, f62, f63, f64, f65, f66, f67, f68, f69, f70, f71, f72, f73, f74, f75, f76, f77, f78, f79, f80, f81, f82, f83, f84, f85, f86, f87, f88, f89; 
 
 ideal Groebner = groebner(Ideal);
-Groebner;
-//poly g = perp(G1A1, AI1);
-//poly rez = reduce(g, Groebner);
-//poly rez1 = reduce((A1[1]-G1[1])*(I1[1]-A[1]) + (A1[2]-G1[2])*(I1[2] - A[2]), Groebner);
 
 
 if(SAS(dG1I1, dI1A1, G1A1, AI1, dAI1, dAI1, Groebner) && SSA(dI1A1, dA1Ap, dAA1, dAA1, A1Ap, AB, Groebner)){
